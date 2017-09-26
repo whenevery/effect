@@ -1,5 +1,6 @@
 function canvas3d (options){
-    this.angle = options.angle || Math.PI / 4;//观看角度 弧度
+    this.angleY = options.angleY || Math.PI / 4;//观看角度 弧度
+    this.angleZ = options.angleZ || Math.PI / 4;//观看角度 弧度
     this.distance = options.distance || 1000;//观看距离
     this.scaleDistance = options.scaleDistance || 10;//产生缩放距离
     this.scaleStep = options.scaleStep || 0.01;//产生缩放的大小
@@ -20,7 +21,10 @@ function canvas3d (options){
 
     this.items = [];//粒子集合
     this.ctx = this.canvas.getContext('2d');
+    //this.ctx.rotate(Math.PI / 4);
     this.ctx.translate(this.centerX , this.centerY);
+    //this.ctx.transform(1,0.5,0.5,1,this.centerX , this.centerY);
+
 
 }
 canvas3d.prototype = {
@@ -30,7 +34,8 @@ canvas3d.prototype = {
     //现在只支持圆球、
     add:function(data){
         data.radius = this.radius;
-        data.angle = this.angle;
+        data.angleY = this.angleY;
+        data.angleZ = this.angleZ;
         data.distance = this.distance;
         data.scaleDistance = this.scaleDistance;
         data.scaleStep = this.scaleStep;
@@ -51,14 +56,12 @@ canvas3d.prototype = {
             a.draw();
         });
         if(call)call();
-    },
-    setAngle:function(angle){
-        this.angle = angle;
     }
 };
 canvas3d.item = function(options){
     this.distance = options.distance;
-    this.angle = options.angle;
+    this.angleY = options.angleY;
+    this.angleZ = options.angleZ;
     this.radius = options.radius;
     this.scaleDistance = options.scaleDistance;
     this.scaleStep = options.scaleStep;
@@ -82,13 +85,16 @@ canvas3d.item.prototype = {
     },
     draw:function(){
         this.ctx.beginPath();
+        // this.ctx.fillStyle = '#f0f';
         var grd=this.ctx.createRadialGradient(this.x,this.showY,1,this.x,this.showY,this.showRadius);
-        grd.addColorStop(0,"red");
-        grd.addColorStop(1,"white");
-        this.ctx.fileStyle = grd;
-        //this.ctx.arc(this.x,this.showY,this.showRadius,0,Math.PI * 2);
-        //this.ctx.fill();
-        this.ctx.fillRect(this.x,this.showY,10,10);
+        // var grd=this.ctx.createRadialGradient(50,50,1,50,50,this.showRadius);
+        grd.addColorStop(0,this.colorStart);
+        grd.addColorStop(1,this.colorEnd);
+        this.ctx.fillStyle = grd;
+        this.ctx.arc(this.x,this.showY,this.showRadius,0,Math.PI * 2);
+        this.ctx.fill();
+        //this.ctx.fillRect(this.x,this.showY,10,10);
+        //this.ctx.fillRect(0,0,100,100);
     },
     getOffset:function(){
         var y = this.y,z=this.z;

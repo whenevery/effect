@@ -7,7 +7,8 @@ canvas.setAttribute('width',wWidth);
 canvas.setAttribute('height',wHeight);
 var obj = new canvas3d({
     canvas:canvas,
-    angle:Math.PI / 4,
+    angleY:Math.PI/4 ,
+    angleZ:Math.PI/4 ,
     distance:1000,
     radius:10,
     centerX:wWidth/2,
@@ -32,7 +33,9 @@ for(var x=startX;x<=endY;x+=stepX){
         });
         item.showZ = showZ;
         showZ += stepPi;
+        break;
     }
+    break;
 }
 function restart(){
 
