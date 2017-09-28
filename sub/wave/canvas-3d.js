@@ -52,7 +52,9 @@ canvas3d.prototype = {
     },
     restart:function(call){
         this.ctx.clearRect(-this.canvasWidth,-this.canvasHeight,this.canvasWidth*2,this.canvasHeight*2);
-        this.items.forEach(function(a){
+        this.items.slice().sort(function(a , b){
+            return a.len  - b.len;
+        }).forEach(function(a){
             a.draw();
         });
         if(call)call();
@@ -79,48 +81,32 @@ canvas3d.item.prototype = {
     },
     reset:function(){
         var offset = this.getOffset();
-        var scaleLength = ((this.distance - offset.len)/this.scaleDistance) | 0;
+        console.log(offset);
+        this.len = this.distance - offset.y;
+        var scaleLength = ((this.distance - this.len)/this.scaleDistance) | 0;
         this.showRadius = this.radius * (1 + scaleLength * this.scaleStep);
-        this.showY = offset.height;
+        this.showY = offset.y;
+        this.showX = offset.x;
     },
     draw:function(){
         this.ctx.beginPath();
-        // this.ctx.fillStyle = '#f0f';
-        var grd=this.ctx.createRadialGradient(this.x,this.showY,1,this.x,this.showY,this.showRadius);
-        // var grd=this.ctx.createRadialGradient(50,50,1,50,50,this.showRadius);
+        var grd=this.ctx.createRadialGradient(this.showX,this.showY,1,this.showX,this.showY,this.showRadius);
         grd.addColorStop(0,this.colorStart);
         grd.addColorStop(1,this.colorEnd);
         this.ctx.fillStyle = grd;
-        this.ctx.arc(this.x,this.showY,this.showRadius,0,Math.PI * 2);
+        this.ctx.arc(this.showX,this.showY,this.showRadius,0,Math.PI * 2);
         this.ctx.fill();
-        //this.ctx.fillRect(this.x,this.showY,10,10);
-        //this.ctx.fillRect(0,0,100,100);
     },
     getOffset:function(){
-        var y = this.y,z=this.z;
-        var other,otherAngle,height,len;
-        other = Math.sqrt(y * y + z * z);
-        otherAngle = Math.atan(z / y);
-        if(y < 0){
-            if(z > 0){
-                height = - other * Math.sin(this.angle + Math.PI / 2 - otherAngle);
-                len = this.distance - other * Math.cos(this.angle + Math.PI / 2 - otherAngle);
-            }else{
-                height = - other * Math.sin(this.angle - otherAngle);
-                len = this.distance + other * Math.cos(this.angle - otherAngle);
-            }
-        }else{
-            if(z > 0){
-                height = other * Math.sin(this.angle - otherAngle);
-                len = this.distance - other * Math.cos(this.angle - otherAngle);
-            }else{
-                height = other * Math.sin(this.angle + Math.PI / 2 - otherAngle);
-                len = this.distance + other * Math.cos(this.angle + Math.PI - otherAngle);
-            }
-        }
+        var y = this.y,z=this.z,x=this.x;
+        var x1 = x * Math.cos(this.angleZ)  - y * Math.sin(this.angleZ);
+        var y1 = x * Math.sin(this.angleZ)  + y * Math.cos(this.angleZ);
+        var z1 = z * Math.cos(this.angleY) - x1 * Math.sin(this.angleY);
+        var x2 = z * Math.sin(this.angleY) + x1 * Math.cos(this.angleY);
         return {
-            height:height,
-            len:len
+            x:x2,
+            y:y1,
+            z:z1
         };
     }
 };

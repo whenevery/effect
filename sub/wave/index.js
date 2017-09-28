@@ -16,7 +16,7 @@ var obj = new canvas3d({
     colorStart:'rgb(52,133,251)',
     colorEnd:'rgb(120,150,194)'
 });
-var startX = -300,startY = -300,endX = 300,endY = 300;
+var startX = -200,startY = -200,endX = 200,endY = 200;
 var countX=10,countY=10;
 
 var stepX = (endX - startX) / countX;
@@ -33,9 +33,7 @@ for(var x=startX;x<=endY;x+=stepX){
         });
         item.showZ = showZ;
         showZ += stepPi;
-        break;
     }
-    break;
 }
 function restart(){
 
