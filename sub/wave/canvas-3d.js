@@ -52,8 +52,8 @@ canvas3d.prototype = {
     },
     restart:function(call){
         this.ctx.clearRect(-this.canvasWidth,-this.canvasHeight,this.canvasWidth*2,this.canvasHeight*2);
-        this.items.slice().sort(function(a , b){
-            return a.len  - b.len;
+        this.items.slice().sort(function(a,b){
+            return a.y - b.y;
         }).forEach(function(a){
             a.draw();
         });
@@ -81,7 +81,6 @@ canvas3d.item.prototype = {
     },
     reset:function(){
         var offset = this.getOffset();
-        console.log(offset);
         this.len = this.distance - offset.y;
         var scaleLength = ((this.distance - this.len)/this.scaleDistance) | 0;
         this.showRadius = this.radius * (1 + scaleLength * this.scaleStep);

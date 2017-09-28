@@ -36,7 +36,6 @@ for(var x=startX;x<=endY;x+=stepX){
     }
 }
 function restart(){
-
     obj.restart(function(){
         obj.items.forEach(function(a){
             a.showZ += Math.PI / 180;
