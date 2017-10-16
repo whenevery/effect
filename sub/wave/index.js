@@ -45,4 +45,25 @@ function restart(){
         requestAnimationFrame(restart);
     });
 }
+var pageX,isDown;
+canvas.onmousemove = function(e){
+    if(isDown){
+        var abs = (pageX - e.pageX)/Math.abs(pageX - e.pageX);
+        obj.items.forEach(function(a){
+            a.angleY -= abs * Math.PI /60;
+            a.reset();
+        });
+    }
+};
+canvas.onmousedown = function(e){
+    isDown = true;
+    pageX = e.pageX;
+    console.log(pageX);
+};
+canvas.onmouseup = function(e){
+    isDown = false;
+};
+canvas.onmouseout = function(e){
+    isDown = false;
+};
 requestAnimationFrame(restart);
