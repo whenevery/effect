@@ -50,7 +50,7 @@ canvas.onmousemove = function(e){
     if(isDown){
         var abs = (pageX - e.pageX)/Math.abs(pageX - e.pageX);
         obj.items.forEach(function(a){
-            a.angleY -= abs * Math.PI /60;
+            a.angleZ += abs * Math.PI /60;
             a.reset();
         });
     }
