@@ -29,10 +29,14 @@ function mySvg(svg){
         },
         add:function(e,options){
             var ele = this.create(e,options);
-            this.push(ele);
+            this.push(ele , options.parent);
+            return ele;
         },
-        push:function(e){
-            this.ele.appendChild(e);
+        push:function(e , p){
+            (p || this.ele).appendChild(e);
+        },
+        remove:function(e,p){
+            (p || this.ele).removeChild(e);
         }
     }
 })();

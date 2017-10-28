@@ -1,5 +1,6 @@
 <html>
 <head>
+    <meta charset="UTF-8">
     <style>
         *{
             margin: 0;
@@ -8,9 +9,75 @@
         }
         #show-div{
         }
+        .title{
+            display: inline-block;
+            width: 100px;
+            text-align: right;
+        }
+        label{
+            min-width: 150px;
+            display: inline-block;
+        }
+        .btn{
+            width: 100px;
+            height: 22px;
+            line-height: 22px;
+            border-radius: 22px;
+            background: #3eaba3;
+            cursor: pointer;
+            text-align: center;
+            font-size: 12px;
+        }
     </style>
 </head>
 <body>
+<fieldset class="options-select">
+    <legend>默认配置</legend>
+    <div>
+        <span class="title">设施类型：</span>
+        <label><input type="radio" checked value=table name="drawCategory" person-count="6">桌子</label>
+        <label><input value="chair" type="radio" name="drawCategory" person-count="1">椅子</label>
+        <label><input value="room" type="radio" name="drawCategory" person-count="20">包间</label>
+    </div>
+    <div>
+        <span class="title">绘图方式：</span>
+        <label><input type="radio" checked value=auto name="drawType">快速</label>
+        <label><input value="draw" type="radio" name="drawType">自定义多边形</label>
+    </div>
+    <div>
+        <span class="title">形状：</span>
+        <label><input type="radio" checked value=rect name="shape">矩形</label>
+        <label><input type="radio" value=circle name="shape">圆形</label>
+        <label><input type="radio" value=fill name="shape">自动填充</label></div>
+    <div>
+        <span class="title">填充方向：</span>
+        <label><input type="radio" checked value=vertical name="direction">垂直</label>
+        <label><input type="radio" value=level name="direction">水平</label>
+    </div>
+</fieldset>
+<fieldset class="info-message" style="visibility: hidden;">
+    <legend>详细信息</legend>
+    <div>
+        <span class="title">类型：</span>
+        <select name="drawCategory">
+            <option value="table" person-count="6">桌子</option>
+            <option value="chair" person-count="1">椅子</option>
+            <option value="room" person-count="20">包间</option>
+        </select>
+    </div>
+    <div>
+        <span class="title">容量(人)：</span>
+        <input type="text" name="personCount">
+    </div>
+    <div>
+        <span class="title">服务员：</span>
+        <span>xxx</span>
+    </div>
+    <div style="padding: 10px;">
+        <div class="btn close-this-btn">删除</div>
+        <div class="btn end-this-btn">完成</div>
+    </div>
+</fieldset>
 <canvas id="my-canvas" style="display:none;"></canvas>
 <div id="show-div">
     <svg id="this-svg">
