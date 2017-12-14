@@ -48,7 +48,6 @@ function drawInit(){
     drawOptions.drawType = optionsSelect.querySelector('[name=drawType]:checked').value;
     drawOptions.shape = optionsSelect.querySelector('[name=shape]:checked').value;
     drawOptions.direction = optionsSelect.querySelector('[name=direction]:checked').value;
-    console.log(drawOptions);
 }
 var targetEle;
 function targetActive(){
@@ -306,7 +305,5 @@ function findMin(x,y){
         thisSvgData.svg = targetEle;
         targetActive();
     }
-
-
 }
 drawInit();
