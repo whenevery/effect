@@ -157,7 +157,7 @@ function thisload (){
     }
     doBigClick(5 , 100);
 }
-window.onload = function(){
-    console.log('onload');
+setTimeout(function(){
+    console.log('setTimeout');
     thisload();
-}
+},100)
