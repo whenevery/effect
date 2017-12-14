@@ -54,7 +54,8 @@
         });
         return rgb;
     }
-    window.onload = function(){
+    function thisload (){
+
         var maxBigWidth=200,maxBigHeight=200;
         var maxSmallWidth=100,maxSmallHeight=100;
         var bigWidth = 30;
@@ -179,5 +180,9 @@
             document.getElementById('show-hex').innerHTML = '#' + [].slice.call(rgb).map(function(a){return a.toString(16).padStart(2,'0')}).join('');
         }
         doBigClick(5 , 100);
+    }
+    window.onload = function(){
+        console.log('onload');
+        thisload();
     }
 </script>
