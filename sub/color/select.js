@@ -31,7 +31,6 @@ function hsbToRgb(h,s,v){
     return rgb;
 }
 function thisload (){
-
     var maxBigWidth=200,maxBigHeight=200;
     var maxSmallWidth=100,maxSmallHeight=100;
     var bigWidth = 30;
