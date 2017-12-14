@@ -138,12 +138,18 @@ function thisload (){
             }
         }
         smallCtx.putImageData(smallData , 0 , 0);
-        doSmallClick(1,1);
+        doSmallClick();
     };
     smallCanvas.onclick = function(e){
         doSmallClick(e.offsetX || e.layerX , e.offsetY || e.layerY);
     };
+    var smallX,smallY;
     function doSmallClick(x , y){
+        if(x === undefined){
+            x = smallX || 1;
+            y = smallY || 1;
+        }
+        smallX = x , smallY = y;
         var index = (y * maxSmallWidth + x) * 4;
         var rgb = smallData.data.slice(index , index + 3);
         smallCircle.style.left = x + (maxBigWidth - maxSmallWidth) / 2 - 1 + 'px';
