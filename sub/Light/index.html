@@ -1,0 +1,123 @@
+<head>
+    <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,minimum-scale=1,user-scalable=no"/>
+</head>
+<div>
+    <canvas id="this-canvas"></canvas>
+</div>
+<script>
+    function LightenDarkenColor(col, amt) {
+        var usePound = false;
+        if (col[0] === "#") {
+            col = col.slice(1);
+            usePound = true;
+        }
+        var num = parseInt(col,16);
+        var r = (num >> 16) + amt;
+        if (r > 255) r = 255;
+        else if (r < 0) r = 0;
+        var b = ((num >> 8) & 0x00FF) + amt;
+        if (b > 255) b = 255;
+        else if (b < 0) b = 0;
+        var g = (num & 0x0000FF) + amt;
+        if (g > 255) g = 255;
+        else if (g < 0) g = 0;
+        return rgbToHex(r,g,b);
+    }
+    function rgbToHex(r,g,b){
+        return '#'+ (r).toString(16).padStart(2,'0')+ (g).toString(16).padStart(2,'0')+ (b).toString(16).padStart(2,'0')
+    }
+    function stringToNum(str){
+        return '0123456789abcdef'.split('').indexOf(str);
+    }
+    function hexToRgb(hex){
+        if(hex.length === 4){
+            hex = hex.replace(/.*/g,function(a){if(a==='#')return a;return a+a;});
+        }
+        var rgb = [];
+        hex.replace(/\w{2}/g,function(a){
+            rgb.push(stringToNum(a[0])*16+stringToNum(a[1]));
+            return '';
+        });
+        return rgb;
+    }
+    var width = 300,height=300;
+    var canvas = document.getElementById('this-canvas');
+    canvas.width = width;
+    canvas.height = height;
+    var ctx = canvas.getContext('2d');
+    var img = new Image;
+    img.src = '/images/vote/rule-banner.png';
+    var autoImgData;
+    var imgRadius = 20;
+    img.onload = function(){
+        ctx.drawImage(img , 0 , 0 , width , height);
+        autoImgData = ctx.getImageData(0,0,width , height).data;
+    }
+    canvas.onmousemove = function(e){
+        setGray(e.offsetX , e.offsetY);
+    }
+    canvas.ontouchmove = function(e){
+        setGray(e.offsetX , e.offsetY);
+    }
+    function copyImageData(imageData){
+        autoImgData.forEach(function(a , i){
+            imageData.data[i] = a;
+        });
+    }
+    function getLength(x,y,cx,cy){
+        return Math.sqrt((x-cx)*(x-cx)+(y-cy)*(y-cy))
+    }
+    //灯源的点
+    var startX = -10,startY=-10;
+    function getSlope(x , y){
+        return (x-startX) / (y - startY);
+    }
+    function getAutoSlope(x,y){
+        var rad = getLength(x,y,startX,startY);
+        //边长
+        var minLength = Math.sqrt(rad*rad-imgRadius*imgRadius);
+        var minTan = Math.tan(Math.atan((x-startX)/(y-startY)) - Math.atan(imgRadius/rad));
+        var maxTan = Math.tan(Math.atan((x-startX)/(y-startY)) + Math.atan(imgRadius/rad));
+        console.log(minTan,maxTan);
+        return [minTan,maxTan,minLength];
+    }
+    function setGray(x , y){
+        var newImageData = ctx.getImageData(0,0,width , height);
+        copyImageData(newImageData);
+        if(x === undefined){
+            x = Math.random()*width | 0;
+            y = Math.random()*height | 0;
+        }
+//        var minX = Math.max(0 , x-imgRadius),maxX = Math.min(x+imgRadius,width-1);
+//        var minY = Math.max(0 , y-imgRadius),maxY = Math.min(y+imgRadius,height-1);
+        var minX=0,maxX = Math.min(x+imgRadius,width-1);
+        var minY=0,maxY = Math.min(y+imgRadius,height-1);
+        var autoSlope = getAutoSlope(x,y);
+        for(var i=minX;i<=maxX;i++){
+            for(var j=minY;j<=maxY;j++){
+                if(getLength(i,j,x,y) < imgRadius){
+                    var index = (j * width + i)*4;
+                    var hex = rgbToHex(newImageData.data[index] , newImageData.data[index+1] , newImageData.data[index+2]);
+                    var newHex = LightenDarkenColor(hex , 30);
+                    var rgb = hexToRgb(newHex);
+                    newImageData.data[index] = rgb[0];
+                    newImageData.data[index + 1] = rgb[1];
+                    newImageData.data[index + 2] = rgb[2];
+                }
+                else{
+                    var slope = getSlope(i,j);
+                    if(slope >= autoSlope[0] && slope <= autoSlope[1] && getLength(i,j,startX,startY) < autoSlope[2]){
+                        var index = (j * width + i)*4;
+                        var hex = rgbToHex(newImageData.data[index] , newImageData.data[index+1] , newImageData.data[index+2]);
+                        var newHex = LightenDarkenColor(hex , 10);
+                        var rgb = hexToRgb(newHex);
+                        newImageData.data[index] = rgb[0];
+                        newImageData.data[index + 1] = rgb[1];
+                        newImageData.data[index + 2] = rgb[2];
+                    }
+                }
+            }
+        }
+        ctx.putImageData(newImageData,0,0);
+    };
+</script>
