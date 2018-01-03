@@ -1,0 +1,7 @@
+/.idea
+/node_modules
+/public
+/rev
+/views
+/logs
+/build/js/build/*
