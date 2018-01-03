@@ -1,6 +1,8 @@
 <head>
+    <title>探照灯</title>
     <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,minimum-scale=1,user-scalable=no"/>
 </head>
+<body>
 <div>
     <canvas id="this-canvas"></canvas>
 </div>
@@ -46,7 +48,7 @@
     canvas.height = height;
     var ctx = canvas.getContext('2d');
     var img = new Image;
-    img.src = '/images/vote/rule-banner.png';
+    img.src = './demo.jpg';
     var autoImgData;
     var imgRadius = 20;
     img.onload = function(){
@@ -121,3 +123,4 @@
         ctx.putImageData(newImageData,0,0);
     };
 </script>
+</body>
