@@ -31,7 +31,7 @@ var colorObject = {
         });
         return rgb;
     },
-    getRadius:function(i , j , w , h){
+    getRadian:function(i , j , w , h){
         function a(){
             var radius = Math.atan(Math.abs((i- w / 2) / (j-h / 2))) * 180 / Math.PI;
             if(h / 2 === j){

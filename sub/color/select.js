@@ -42,7 +42,7 @@ function thisload (){
         for(var j=0;j<maxBigHeight;j++){
             var len = getLength(i , j , 'big');
             if(checkLength(len)){
-                var rad = Math.ceil(colorObject.getRadius(i,j,maxBigWidth,maxBigHeight));
+                var rad = Math.ceil(colorObject.getRadian(i,j,maxBigWidth,maxBigHeight));
                 rads.push(rad);
                 var rgb = colorObject.hsbToRgb(rad , 1 , 1);
                 var index = (j * maxBigWidth + i) * 4;
@@ -58,7 +58,7 @@ function thisload (){
         doBigClick(e.offsetX || e.layerX , e.offsetY || e.layerY );
     });
     function doBigClick(x , y){
-        var rad = colorObject.getRadius(x,y ,maxBigWidth,maxBigHeight);
+        var rad = colorObject.getRadian(x,y ,maxBigWidth,maxBigHeight);
         drawSmall(rad);
         bigCircle.style.left = x - 1 + 'px';
         bigCircle.style.top = y - 1 + 'px';

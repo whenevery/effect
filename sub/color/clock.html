@@ -5,8 +5,33 @@
 </head>
 <body style="margin: 0;padding: 0">
 <div style="margin: 50px">
-        <canvas id="clock-canvas" style="border-radius: 100%;width: 100px;height: 100px;"></canvas>
+        <div id="clock-canvas"></div>
 </div>
 <script src="common.js"></script>
 <script src="clock.js"></script>
+<script>
+  clockCanvas({
+    content:document.getElementById('clock-canvas'),
+    width:200,
+    height:200,
+    clockWidth:5,
+    bigWidth:5,
+    bigLength:15,
+    smallWidth:3,
+    smallLength:10,
+    stepClock:5,
+
+    hourLength:50,
+    hourWidth:5,
+    hourAfter:5,
+
+    minuteLength:70,
+    minuteWidth:3,
+    minuteAfter:10,
+
+    secondLength:90,
+    secondWidth:2,
+    secondAfter:15,
+  })
+</script>
 </body>
